@@ -5,7 +5,7 @@ import java.io.*;
 import javafx.application.Application;
 
 public class App {
-	public static Player me=null;
+
 	public static void main(String[] args) throws Exception{
         String sentence;
         String modifiedSentence;
@@ -19,8 +19,6 @@ public class App {
         modifiedSentence = inFromServer.readLine();
         System.out.println("FROM SERVER: " + modifiedSentence);
 
-
-		me = GameLogic.makePlayers(navn);
 		Application.launch(Gui.class);
 	}
 }
