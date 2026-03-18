@@ -25,7 +25,8 @@ public class ServerThread extends Thread{
             outToClient.writeBytes("Hej"+ clientSentence + '\n' );
             me = GameLogic.makePlayers(clientSentence);
             Server.players.add(me);
-
+            String spawnMessage = "SPAWN " + me.getName() + " " + me.getXpos() + " " + me.getYpos() + " " + me.getDirection() + "\n";
+            outToClient.writeBytes(spawnMessage);
             while (true) {
                 String msg = inFromClient.readLine();
 

@@ -45,4 +45,8 @@ public class Player {
 	public String toString() {
 		return name+":   "+point;
 	}
+    public String getName() {
+        return this.name;
+    }
 }
+
