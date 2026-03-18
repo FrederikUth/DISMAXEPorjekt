@@ -16,7 +16,7 @@ public class App {
         outToServer.writeBytes(navn + '\n');
         modifiedSentence = inFromServer.readLine();
         System.out.println("FROM SERVER: " + modifiedSentence);
-        clientSocket.close();
+
 
 		me = GameLogic.makePlayers(navn);
 		Application.launch(Gui.class);

@@ -19,6 +19,7 @@ public class ServerThread extends Thread{
 			
 			String clientSentence = inFromClient.readLine();
 			outToClient.writeBytes("Hej "+ clientSentence + '\n' );
+
 		
 		} catch (IOException e) {
 			e.printStackTrace();
