@@ -4,7 +4,7 @@ import java.net.*;
 import java.io.*;
 import javafx.application.Application;
 
-public class App extends Thread {
+public class App {
 
 	public static void main(String[] args) throws Exception{
         String sentence;
@@ -18,9 +18,9 @@ public class App extends Thread {
         outToServer.writeBytes(navn + '\n');
         modifiedSentence = inFromServer.readLine();
         System.out.println("FROM SERVER: " + modifiedSentence);
+        ClientThread listner = new ClientThread(inFromServer);
+        listner.start();
 		Application.launch(Gui.class);
-
 	}
-
 }
 ;
