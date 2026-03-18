@@ -18,19 +18,17 @@ public class ServerThread extends Thread {
 
     public void run() {
         try {
-            BufferedReader inFromClient = new BufferedReader(
-                    new InputStreamReader(connSocket.getInputStream()));
-            DataOutputStream outToClient = new DataOutputStream(
-                    connSocket.getOutputStream());
+            BufferedReader inFromClient =
+                    new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
+            DataOutputStream outToClient =
+                    new DataOutputStream(connSocket.getOutputStream());
 
-            // Første besked fra klienten = navn
             String clientName = inFromClient.readLine();
             outToClient.writeBytes("Hej " + c.getTekst() + '\n');
 
             me = GameLogic.makePlayers(clientName);
             Server.players.add(me);
 
-            // Lyt efter bevægelse
             while (true) {
                 String message = inFromClient.readLine();
 

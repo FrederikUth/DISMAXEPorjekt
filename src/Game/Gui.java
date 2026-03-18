@@ -151,13 +151,9 @@ public class Gui extends Application {
 			scoreList.setText(getScoreList());
 			});
 	}
-    public void playerMoved(int delta_x, int delta_y, String direction) {
-        try {
-            App.outToServer.writeBytes("MOVE " + direction + "\n");
-        } catch (Exception e) {
-            System.out.println("Kunne ikke sende bevægelse til serveren.");
-        }
-    }
+	public void playerMoved(int delta_x, int delta_y, String direction) {
+		GameLogic.updatePlayer(GameLogic.players.get(0), delta_x, delta_y, direction);
+	}
 	
 	public String getScoreList() {
 		StringBuffer b = new StringBuffer(100);
