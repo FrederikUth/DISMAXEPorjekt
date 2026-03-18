@@ -1,0 +1,27 @@
+<component name="libraryTable">
+  <library name="javafx">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx-swt.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.base.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.controls.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.fxml.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.graphics.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.media.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.swing.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib/javafx.web.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.base" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.controls" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.fxml" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.graphics" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.media" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.swing" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/javafx.web" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/legal" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/resources" />
+      <root url="file://$USER_HOME$/Documents/Datamatiker/openjfx-23.0.2-javadoc/javafx-23.0.2-javadoc/script-dir" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
