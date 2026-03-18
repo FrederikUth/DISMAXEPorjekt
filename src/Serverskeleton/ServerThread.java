@@ -22,7 +22,7 @@ public class ServerThread extends Thread{
 			// The following two lines are only an example
 			
 			String clientSentence = inFromClient.readLine();
-			outToClient.writeBytes("Hej"+ c.getTekst() + '\n' );
+			outToClient.writeBytes("Hej"+ clientSentence + '\n' );
            me = GameLogic.makePlayers(clientSentence);
            Server.players.add(me);
 
