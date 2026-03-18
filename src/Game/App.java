@@ -7,22 +7,25 @@ import javafx.application.Application;
 public class App {
     public static DataOutputStream outToServer;
 
-
-    public static void main(String[] args) throws Exception{
-        String sentence;
+    public static void main(String[] args) throws Exception {
         String modifiedSentence;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        Socket clientSocket= new Socket("10.10.137.151",6767);
-        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+        Socket clientSocket = new Socket("10.10.137.151", 6767);
+
+        App.outToServer = new DataOutputStream(clientSocket.getOutputStream());
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
         System.out.println("Indtast spillernavn");
         String navn = inFromUser.readLine();
-        outToServer.writeBytes(navn + '\n');
+
+        App.outToServer.writeBytes(navn + '\n');
+
         modifiedSentence = inFromServer.readLine();
         System.out.println("FROM SERVER: " + modifiedSentence);
-        ClientThread listner = new ClientThread(inFromServer);
-        listner.start();
-		Application.launch(Gui.class);
-	}
+
+        ClientThread listener = new ClientThread(inFromServer);
+        listener.start();
+
+        Application.launch(Gui.class);
+    }
 }
-;
