@@ -35,12 +35,10 @@ public class ClientThread extends Thread {
                     int y = Integer.parseInt(tokens[3]);
                     String direction = tokens[4];
 
-                    // Opret en lokal kopi af spilleren til klientens hukommelse
                     pair p = new pair(x, y);
                     Player newPlayer = new Player(name, p, direction);
                     GameLogic.players.add(newPlayer);
 
-                    // Bed JavaFX om at tegne manden på skærmen
                     Platform.runLater(() -> {
                         Gui.placePlayerOnScreen(p, direction);
                         // Hvis du vil have scorelisten opdateret med det samme:

@@ -10,7 +10,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         String modifiedSentence;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        Socket clientSocket = new Socket("localhost", 6767);
+        Socket clientSocket = new Socket("10.10.137.151", 6767);
 
         App.outToServer = new DataOutputStream(clientSocket.getOutputStream());
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -20,7 +20,7 @@ public class App {
 
         App.outToServer.writeBytes(navn + '\n');
 
-        GameLogic.makePlayers(navn);
+
 
         modifiedSentence = inFromServer.readLine();
         System.out.println("FROM SERVER: " + modifiedSentence);
