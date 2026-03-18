@@ -81,8 +81,4 @@ public static List<Player> players = new ArrayList<Player>();
 		}
 		return null;
 	}
-	
-	
-	
-
 }

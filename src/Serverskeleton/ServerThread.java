@@ -25,6 +25,29 @@ public class ServerThread extends Thread{
 			outToClient.writeBytes("Hej"+ c.getTekst() + '\n' );
            me = GameLogic.makePlayers(clientSentence);
            Server.players.add(me);
+
+			while (true) {
+				String msg = inFromClient.readLine();
+
+				if (msg == null) break;
+
+				if (msg.startsWith("MOVE")) {
+					String direction = msg.split(" ")[1];
+
+					int dx = 0, dy = 0;
+
+					switch (direction) {
+						case "up": dy = -1; break;
+						case "down": dy = 1; break;
+						case "left": dx = -1; break;
+						case "right": dx = 1; break;
+					}
+
+					GameLogic.updatePlayer(me, dx, dy, direction);
+
+					// send update til klienter (du mangler broadcast)
+				}
+			}
 		
 		} catch (IOException e) {
 			e.printStackTrace();
