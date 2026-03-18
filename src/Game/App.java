@@ -5,8 +5,10 @@ import java.io.*;
 import javafx.application.Application;
 
 public class App {
+    public static DataOutputStream outToServer;
 
-	public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception{
         String sentence;
         String modifiedSentence;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
