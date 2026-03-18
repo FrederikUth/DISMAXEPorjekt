@@ -1,3 +1,5 @@
+package Game;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -6,7 +8,7 @@ import java.util.Random;
 
 public class GameLogic {
 public static List<Player> players = new ArrayList<Player>();	
-	//public static Player me;
+	//public static Game.Player me;
 	
 	
 	public static Player makePlayers(String name) {

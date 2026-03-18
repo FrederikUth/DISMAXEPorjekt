@@ -1,5 +1,4 @@
-import java.util.*;
-import java.util.List;
+package Game;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
 public class Gui extends Application {

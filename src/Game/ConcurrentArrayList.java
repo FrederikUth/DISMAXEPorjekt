@@ -1,3 +1,5 @@
+package Game;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +29,7 @@ public class ConcurrentArrayList implements Iterable<Player>
 		// TODO Auto-generated method stub
 		return liste.iterator();
 	}
-	/*public class ConcurrentArrayListIterator<Player> implements Iterator<Player> {
+	/*public class ConcurrentArrayListIterator<Game.Player> implements Iterator<Game.Player> {
 
 		@Override
 		public boolean hasNext() {
@@ -36,7 +38,7 @@ public class ConcurrentArrayList implements Iterable<Player>
 		}
 
 		@Override
-		public Player next() {
+		public Game.Player next() {
 			// TODO Auto-generated method stub
 			return null;
 		}
