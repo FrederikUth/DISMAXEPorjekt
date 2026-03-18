@@ -8,7 +8,7 @@ public class App {
         String sentence;
         String modifiedSentence;
         BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        Socket clientSocket= new Socket("localhost",6767);
+        Socket clientSocket= new Socket("10.10.137.151",6767);
         DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         System.out.println("Indtast spillernavn");
