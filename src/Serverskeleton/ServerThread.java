@@ -1,9 +1,13 @@
 package Serverskeleton;
+import Game.GameLogic;
+import Game.Player;
+
 import java.net.*;
 import java.io.*;
 public class ServerThread extends Thread{
 	Socket connSocket;
 	common c;
+    public static Player me = null;
 	
 	public ServerThread(Socket connSocket,common c) {
 		this.connSocket = connSocket;
@@ -19,6 +23,8 @@ public class ServerThread extends Thread{
 			
 			String clientSentence = inFromClient.readLine();
 			outToClient.writeBytes("Hej"+ c.getTekst() + '\n' );
+           me = GameLogic.makePlayers(clientSentence);
+           Server.players.add(me);
 		
 		} catch (IOException e) {
 			e.printStackTrace();
