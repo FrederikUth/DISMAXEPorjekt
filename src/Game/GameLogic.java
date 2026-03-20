@@ -48,18 +48,16 @@ public class GameLogic {
             Player p = getPlayerAt(x + delta_x, y + delta_y);
             if (p != null) {
                 me.addPoints(10);
-                // Opdater den anden spiller
                 p.addPoints(-10);
                 pair pa = getRandomFreePosition();
                 p.setLocation(pa);
-                // BEMÆRK: Vi har fjernet Gui.movePlayerOnScreen herfra!
             } else {
                 me.addPoints(1);
             }
 
-            // Flyt spilleren i hukommelsen
+
             pair newpos = new pair(x + delta_x, y + delta_y);
-            // BEMÆRK: Vi har fjernet Gui.movePlayerOnScreen herfra!
+
             me.setLocation(newpos);
         }
     }
