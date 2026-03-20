@@ -27,8 +27,11 @@ public class ClientThread extends Thread {
 
                 // Vi deler beskeden op i bidder (adskilt af mellemrum)
                 String[] tokens = message.split(" ");
-                String command = tokens[0]; // F.eks. "SPAWN"
+                String command = tokens[0];
 
+                // ==========================================
+                // HÅNDTER SPAWN (Nye spillere)
+                // ==========================================
                 if (command.equals("SPAWN")) {
                     String name = tokens[1];
                     int x = Integer.parseInt(tokens[2]);
@@ -41,9 +44,42 @@ public class ClientThread extends Thread {
 
                     Platform.runLater(() -> {
                         Gui.placePlayerOnScreen(p, direction);
-                        // Hvis du vil have scorelisten opdateret med det samme:
-                        // Gui.updateScoreTable(); // Kræver at metoden er static i Gui
                     });
+                }
+
+                // ==========================================
+                // HÅNDTER UPDATE (Bevægelse)
+                // ==========================================
+                else if (command.equals("UPDATE")) {
+                    String name = tokens[1];
+                    int oldX = Integer.parseInt(tokens[2]);
+                    int oldY = Integer.parseInt(tokens[3]);
+                    int newX = Integer.parseInt(tokens[4]);
+                    int newY = Integer.parseInt(tokens[5]);
+                    String direction = tokens[6];
+
+                    // Find spilleren via NAVN i vores lokale liste
+                    Player playerToMove = null;
+                    for (Player p : GameLogic.players) {
+                        if (p.getName().equals(name)) {
+                            playerToMove = p;
+                            break; // Stop med at lede, når vi har fundet ham
+                        }
+                    }
+
+                    // Hvis vi fandt spilleren, opdaterer vi hans position og tegner ham
+                    if (playerToMove != null) {
+                        playerToMove.setXpos(newX);
+                        playerToMove.setYpos(newY);
+                        playerToMove.setDirection(direction);
+
+                        // Bed GUI'en om at rykke billedet på skærmen (skal gøres på JavaFX tråden)
+                        Platform.runLater(() -> {
+                            pair oldPos = new pair(oldX, oldY);
+                            pair newPos = new pair(newX, newY);
+                            Gui.movePlayerOnScreen(oldPos, newPos, direction);
+                        });
+                    }
                 }
             }
         } catch (IOException e) {

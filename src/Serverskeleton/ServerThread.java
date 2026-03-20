@@ -9,10 +9,8 @@ public class ServerThread extends Thread {
     Socket connSocket;
     common c;
 
-    // RETTET: Fjernet 'static', så hver tråd/klient har sin egen spiller!
+    // Fjernet 'static' så hver klient har sin egen spiller!
     public Player me = null;
-
-    // NYT: Vi gemmer outToClient heroppe, så broadcast-løkken kan få fat i den
     public DataOutputStream outToClient;
 
     public ServerThread(Socket connSocket, common c) {
@@ -23,29 +21,56 @@ public class ServerThread extends Thread {
     public void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
-            // Tildel værdien til vores klasse-variabel
             outToClient = new DataOutputStream(connSocket.getOutputStream());
 
-            // NYT: Tilføj denne specifikke tråd til serverens fælles liste over klienter
-            Server.threads.add(this);
-
+            // 1. Læs navnet fra klienten
             String clientSentence = inFromClient.readLine();
+            System.out.println(clientSentence + " er ved at forbinde...");
             outToClient.writeBytes("Hej " + clientSentence + '\n');
+
+            // ==========================================
+            // DET SMARTE TRICK: Sove-tid!
+            // ==========================================
+            // Vi venter lige et halvt sekund (500 millisekunder), så klientens
+            // JavaFX-vindue har tid til at loade hele brættet op, før vi sender spillere.
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // 2. Tilføj denne tråd og spiller til serverens lister
+            Server.threads.add(this);
             me = GameLogic.makePlayers(clientSentence);
             Server.players.add(me);
 
+            // ==========================================
+            // SYNKRONISERING AF SPILLERE
+            // ==========================================
+            // Fortæl ALLE klienter at der er logget en ny ind
             String spawnMessage = "SPAWN " + me.getName() + " " + me.getXpos() + " " + me.getYpos() + " " + me.getDirection() + "\n";
-            outToClient.writeBytes(spawnMessage);
+            for (ServerThread thread : Server.threads) {
+                thread.outToClient.writeBytes(spawnMessage);
+            }
 
+            // Fortæl den NYE klient om de gamle spillere
+            for (Player p : Server.players) {
+                if (p != me) { // Send ikke ham selv igen
+                    String oldPlayerMsg = "SPAWN " + p.getName() + " " + p.getXpos() + " " + p.getYpos() + " " + p.getDirection() + "\n";
+                    outToClient.writeBytes(oldPlayerMsg);
+                }
+            }
+
+            // ==========================================
+            // SPILLE-LØKKEN (Lyt efter bevægelser)
+            // ==========================================
             while (true) {
                 String msg = inFromClient.readLine();
-
-                if (msg == null) break;
+                if (msg == null) break; // Klienten afbrød forbindelsen
 
                 if (msg.startsWith("MOVE")) {
                     String direction = msg.split(" ")[1];
 
-                    // Husk den gamle position til UPDATE-beskeden
                     int oldX = me.getXpos();
                     int oldY = me.getYpos();
 
@@ -57,13 +82,11 @@ public class ServerThread extends Thread {
                         case "right": dx = 1; break;
                     }
 
+                    // Tjek om trækket er lovligt (mur/kollision)
                     GameLogic.updatePlayer(me, dx, dy, direction);
 
-                    // NYT: Den færdige BROADCAST funktion!
-                    // Vi bygger beskeden én gang...
+                    // Broadcast bevægelsen til ALLE klienter
                     String updateMessage = "UPDATE " + me.getName() + " " + oldX + " " + oldY + " " + me.getXpos() + " " + me.getYpos() + " " + direction + "\n";
-
-                    // ... og sender den til ALLE tråde i listen (inklusive os selv)
                     for (ServerThread thread : Server.threads) {
                         thread.outToClient.writeBytes(updateMessage);
                     }
@@ -71,12 +94,14 @@ public class ServerThread extends Thread {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("En spiller mistede forbindelsen.");
         } finally {
-            // NYT: God stil at rydde op, hvis en klient lukker spillet
-            Server.threads.remove(this);
-            Server.players.remove(me);
-            System.out.println(me.getName() + " forlod spillet.");
+
+            if (me != null) {
+                Server.threads.remove(this);
+                Server.players.remove(me);
+                System.out.println(me.getName() + " forlod spillet.");
+            }
         }
     }
 }
