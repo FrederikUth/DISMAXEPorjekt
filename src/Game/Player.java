@@ -1,18 +1,22 @@
 package Game;
 
+import java.io.DataOutputStream;
+
 public class Player {
 	String name;
 	pair location;
 	int point;
 	String direction;
+    DataOutputStream outToClient;
 
-	public Player(String name, pair loc, String direction) {
+
+    public Player(String name, pair loc, String direction) {
 		this.name = name;
 		this.location = loc;
 		this.direction = direction;
 		this.point = 0;
+
 	};
-	
 	public pair getLocation() {
 		return this.location;
 	}
@@ -48,5 +52,6 @@ public class Player {
     public String getName() {
         return this.name;
     }
+
 }
 

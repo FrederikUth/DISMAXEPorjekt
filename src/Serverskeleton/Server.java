@@ -8,7 +8,9 @@ import java.util.List;
 
 public class Server {
 	public static List<Player> players = new ArrayList<Player>();
-	/**
+    public static List<ServerThread> threads = new ArrayList<ServerThread>();
+
+	/**s
 	 * @param args
 	 */
 
