@@ -17,6 +17,7 @@ public class ClientThread extends Thread {
             while (true) {
                 // Tråden venter her, indtil serveren sender en besked
                 String message = inFromServer.readLine();
+                System.out.println(message);
 
                 if (message == null) {
                     System.out.println("Forbindelsen til serveren blev afbrudt.");

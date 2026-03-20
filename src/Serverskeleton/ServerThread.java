@@ -18,7 +18,11 @@ public class ServerThread extends Thread {
         this.c = c;
     }
 
-    public void run() {
+    public synchronized void updateMessage(){
+
+    }
+
+    public synchronized void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
             outToClient = new DataOutputStream(connSocket.getOutputStream());

@@ -51,9 +51,9 @@ public class GameLogic {
             }
 
 
-//            pair newpos = new pair(x + delta_x, y + delta_y);
-//
-//            me.setLocation(newpos);
+            pair newpos = new pair(x + delta_x, y + delta_y);
+
+            me.setLocation(newpos);
         }
     }
 
