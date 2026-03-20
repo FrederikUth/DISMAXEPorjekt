@@ -20,8 +20,6 @@ public class App {
 
         App.outToServer.writeBytes(navn + '\n');
 
-
-
         modifiedSentence = inFromServer.readLine();
         System.out.println("FROM SERVER: " + modifiedSentence);
 

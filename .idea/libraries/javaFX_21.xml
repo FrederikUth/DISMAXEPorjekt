@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="javaFX_21">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/lib/javafx.base.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/lib/javafx.controls.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/lib/javafx.graphics.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$USER_HOME$/Documents/SKOLE/eaa/javafx-21.0.6-javadoc/javafx.base" />
+      <root url="file://$USER_HOME$/Documents/SKOLE/eaa/javafx-21.0.6-javadoc/javafx.controls" />
+      <root url="file://$USER_HOME$/Documents/SKOLE/eaa/javafx-21.0.6-javadoc/javafx.graphics" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/src.zip!/javafx.base" />
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/src.zip!/javafx.controls" />
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/src.zip!/javafx.fxml" />
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/src.zip!/javafx.graphics" />
+      <root url="jar://$USER_HOME$/Documents/SKOLE/eaa/javafx-sdk-21.0.6/src.zip!/javafx.media" />
+    </SOURCES>
+  </library>
+</component>
