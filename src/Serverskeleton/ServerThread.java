@@ -18,11 +18,7 @@ public class ServerThread extends Thread {
         this.c = c;
     }
 
-    public synchronized void updateMessage(){
-
-    }
-
-    public synchronized void run() {
+    public void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connSocket.getInputStream()));
             outToClient = new DataOutputStream(connSocket.getOutputStream());
@@ -30,13 +26,15 @@ public class ServerThread extends Thread {
             // 1. Læs navnet fra klienten
             String clientSentence = inFromClient.readLine();
             System.out.println(clientSentence + " er ved at forbinde...");
-            outToClient.writeBytes("Hej " + clientSentence + '\n');
+
+            // Lås forbindelsen mens vi sender velkomst
+            synchronized(outToClient) {
+                outToClient.writeBytes("Hej " + clientSentence + '\n');
+            }
 
             // ==========================================
             // DET SMARTE TRICK: Sove-tid!
             // ==========================================
-            // Vi venter lige et halvt sekund (500 millisekunder), så klientens
-            // JavaFX-vindue har tid til at loade hele brættet op, før vi sender spillere.
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -54,14 +52,20 @@ public class ServerThread extends Thread {
             // Fortæl ALLE klienter at der er logget en ny ind
             String spawnMessage = "SPAWN " + me.getName() + " " + me.getXpos() + " " + me.getYpos() + " " + me.getDirection() + "\n";
             for (ServerThread thread : Server.threads) {
-                thread.outToClient.writeBytes(spawnMessage);
+                // NYT: Sæt lås på den tråd, vi sender til!
+                synchronized(thread.outToClient) {
+                    thread.outToClient.writeBytes(spawnMessage);
+                }
             }
 
             // Fortæl den NYE klient om de gamle spillere
             for (Player p : Server.players) {
                 if (p != me) { // Send ikke ham selv igen
                     String oldPlayerMsg = "SPAWN " + p.getName() + " " + p.getXpos() + " " + p.getYpos() + " " + p.getDirection() + "\n";
-                    outToClient.writeBytes(oldPlayerMsg);
+                    // NYT: Sæt lås på vores egen forbindelse!
+                    synchronized(outToClient) {
+                        outToClient.writeBytes(oldPlayerMsg);
+                    }
                 }
             }
 
@@ -92,7 +96,10 @@ public class ServerThread extends Thread {
                     // Broadcast bevægelsen til ALLE klienter
                     String updateMessage = "UPDATE " + me.getName() + " " + oldX + " " + oldY + " " + me.getXpos() + " " + me.getYpos() + " " + direction + "\n";
                     for (ServerThread thread : Server.threads) {
-                        thread.outToClient.writeBytes(updateMessage);
+                        // NYT: Sæt lås på modtagerens forbindelse!
+                        synchronized(thread.outToClient) {
+                            thread.outToClient.writeBytes(updateMessage);
+                        }
                     }
                 }
             }
@@ -100,7 +107,6 @@ public class ServerThread extends Thread {
         } catch (IOException e) {
             System.out.println("En spiller mistede forbindelsen.");
         } finally {
-
             if (me != null) {
                 Server.threads.remove(this);
                 Server.players.remove(me);

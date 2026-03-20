@@ -3,12 +3,13 @@ import Game.Player;
 
 import java.net.*;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 //
 
 public class Server {
-	public static List<Player> players = new ArrayList<Player>();
-    public static List<ServerThread> threads = new ArrayList<ServerThread>();
+    public static List<Player> players = new CopyOnWriteArrayList<Player>();
+    public static List<ServerThread> threads = new CopyOnWriteArrayList<ServerThread>();
 
 	/**s
 	 * @param args

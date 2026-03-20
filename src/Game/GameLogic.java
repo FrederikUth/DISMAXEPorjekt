@@ -1,11 +1,12 @@
 package Game;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GameLogic {
-    public static List<Player> players = new ArrayList<Player>();
+    public static List<Player> players = new CopyOnWriteArrayList<Player>();
 
     public static Player makePlayers(String name) {
         pair p = getRandomFreePosition();
@@ -14,7 +15,7 @@ public class GameLogic {
         return me;
     }
 
-    public static pair getRandomFreePosition() {
+    public static synchronized pair getRandomFreePosition() {
         int x = 1;
         int y = 1;
         boolean foundfreepos = false;
@@ -35,7 +36,7 @@ public class GameLogic {
         return p;
     }
 
-    public static void updatePlayer(Player me, int delta_x, int delta_y, String direction) {
+    public static synchronized void updatePlayer(Player me, int delta_x, int delta_y, String direction) {
         me.direction = direction;
         int x = me.getXpos();
         int y = me.getYpos();
