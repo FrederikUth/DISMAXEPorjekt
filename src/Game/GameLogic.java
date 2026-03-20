@@ -49,8 +49,8 @@ public class GameLogic {
             if (p != null) {
                 me.addPoints(10);
                 p.addPoints(-10);
-                pair pa = getRandomFreePosition();
-                p.setLocation(pa);
+                /*pair pa = getRandomFreePosition();*/
+                /*p.setLocation(pa);*/
             } else {
                 me.addPoints(1);
             }
