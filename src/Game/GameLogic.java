@@ -39,32 +39,21 @@ public class GameLogic {
         me.direction = direction;
         int x = me.getXpos();
         int y = me.getYpos();
-        int tx = x + delta_x;
-        int ty = y + delta_y;
 
-        if (ty < 0 || ty >= Generel.board.length || tx < 0 || tx >= Generel.board[ty].length()) {
-            return;
-        }
-
-
-        if (Generel.board[ty].charAt(tx) == 'w') {
-            me.addPoints(-1); // Ramte en mur
+        if (Generel.board[y + delta_y].charAt(x + delta_x) == 'w') {
+            me.addPoints(1);
         }
         else {
             // Kollisions-detektion
-            Player p = getPlayerAt(tx, ty);
-//            if (p != null) {
-//                me.addPoints(10);
-//                p.addPoints(-10);
-//                pair pa = getRandomFreePosition();
-//                p.setLocation(pa);
-//            } else {
-//                me.addPoints(1);
-//            }
+            Player p = getPlayerAt(x + delta_x, y + delta_y);
+            if (p != null) {
+                return;
+            }
 
 
-
-            me.setLocation(new pair(tx, ty));
+//            pair newpos = new pair(x + delta_x, y + delta_y);
+//
+//            me.setLocation(newpos);
         }
     }
 
