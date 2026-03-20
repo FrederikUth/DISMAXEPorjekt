@@ -16,6 +16,8 @@ public class Gui extends Application {
 	public static final int size = 30; 
 	public static final int scene_height = size * 20 + 50;
 	public static final int scene_width = size * 20 + 200;
+	private long lastMoveTime = 0;
+	private final long MOVE_DELAY = 100; // ms (0.1 sekund)
 
 	public static Image image_floor;
 	public static Image image_wall;
@@ -151,13 +153,22 @@ public class Gui extends Application {
 			scoreList.setText(getScoreList());
 			});
 	}
-    public void playerMoved(int delta_x, int delta_y, String direction) {
-        try {
-            App.outToServer.writeBytes("MOVE " + direction + "\n");
-        } catch (Exception e) {
-            System.out.println("Kunne ikke sende bevægelse til serveren.");
-        }
-    }
+
+	public void playerMoved(int delta_x, int delta_y, String direction) {
+		long now = System.currentTimeMillis();
+
+		if (now - lastMoveTime < MOVE_DELAY) {
+			return; // ignorer spam
+		}
+
+		lastMoveTime = now;
+
+		try {
+			App.outToServer.writeBytes("MOVE " + direction + "\n");
+		} catch (Exception e) {
+			System.out.println("Kunne ikke sende bevægelse til serveren.");
+		}
+	}
 	
 	public String getScoreList() {
 		StringBuffer b = new StringBuffer(100);

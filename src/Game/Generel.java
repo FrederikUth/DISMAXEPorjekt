@@ -2,7 +2,7 @@ package Game;
 
 public class Generel {
 	public static  String[] board = {    // 20x20
-			"ww wwwwwwwwwwwwwwwwwwwwwww",
+			"wwwwwwwwwwwwwwwwwwwwwwwwww",
 			"w        ww w            w",
 			"w w  w  w w w  w  ww     w",
 			"w w  w    w w  w  ww     w",

@@ -41,7 +41,7 @@ public class GameLogic {
         int y = me.getYpos();
 
         if (Generel.board[y + delta_y].charAt(x + delta_x) == 'w') {
-            me.addPoints(1);
+            me.addPoints(0);
         }
         else {
             // Kollisions-detektion
@@ -50,10 +50,8 @@ public class GameLogic {
                 return;
             }
 
-
-            pair newpos = new pair(x + delta_x, y + delta_y);
-
-            me.setLocation(newpos);
+            me.setXpos(x + delta_x);
+            me.setYpos(y + delta_y);
         }
     }
 
