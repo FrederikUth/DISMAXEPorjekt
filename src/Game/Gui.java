@@ -238,5 +238,9 @@ public class Gui extends Application {
 
 		scoreList.setText(b.toString());
 	}
+
+	public static void placeBomb(pair pos) {
+		fields[pos.getX()][pos.getY()].setGraphic(new ImageView(bomb_img));
+	}
 }
 

@@ -1,4 +1,5 @@
 package Serverskeleton;
+import Game.Bomb;
 import Game.GameLogic;
 import Game.Player;
 import Game.Treasure;
