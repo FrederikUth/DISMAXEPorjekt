@@ -7,6 +7,7 @@ import java.util.Random;
 
 public class GameLogic {
     public static List<Player> players = new CopyOnWriteArrayList<Player>();
+    public static List<Treasure> treasures = new CopyOnWriteArrayList<Treasure>();
 
     public static Player makePlayers(String name) {
         pair p = getRandomFreePosition();
@@ -45,6 +46,16 @@ public class GameLogic {
             me.addPoints(0);
         }
         else {
+            // 🔥 TJEK TREASURE
+            for (Treasure t : treasures) {
+                if (t.getPosition().getX() == x + delta_x &&
+                        t.getPosition().getY() == y + delta_y) {
+
+                    me.addPoints(t.getValue());
+                    treasures.remove(t);
+                    break;
+                }
+            }
             // Kollisions-detektion
             Player p = getPlayerAt(x + delta_x, y + delta_y);
             if (p != null) {
@@ -63,5 +74,12 @@ public class GameLogic {
             }
         }
         return null;
+    }
+
+    public static Treasure spawnTreasure() {
+        pair pos = getRandomFreePosition();
+        Treasure t = new Treasure(pos, 10);
+        treasures.add(t);
+        return t;
     }
 }

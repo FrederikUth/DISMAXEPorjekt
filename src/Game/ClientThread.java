@@ -82,6 +82,18 @@ public class ClientThread extends Thread {
                         });
                     }
                 }
+
+                else if (command.equals("TREASURE")) {
+                    int x = Integer.parseInt(tokens[1]);
+                    int y = Integer.parseInt(tokens[2]);
+
+                    pair pos = new pair(x, y);
+
+                    Platform.runLater(() -> {
+                        Gui.placeTreasure(pos);
+                    });
+                }
+
                 else if (command.equals("REMOVE")) {
                     String name = tokens[1];
 
@@ -106,6 +118,17 @@ public class ClientThread extends Thread {
                             Gui.removePlayerOnScreen(finalPlayer.getLocation());
                         });
                     }
+                }
+
+                else if (command.equals("TREASURE")) {
+                    int x = Integer.parseInt(tokens[1]);
+                    int y = Integer.parseInt(tokens[2]);
+
+                    pair pos = new pair(x, y);
+
+                    Platform.runLater(() -> {
+                        Gui.placeTreasure(pos);
+                    });
                 }
             }
         } catch (IOException e) {

@@ -27,6 +27,7 @@ public class Gui extends Application {
 	public static Image image_floor;
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
+	public static Image treasure_img;
     //private MediaPlayer mediaPlayer;
 
 	
@@ -66,7 +67,7 @@ public class Gui extends Application {
 
 			image_wall  = new Image(getClass().getResourceAsStream("Image/wall4.png"),size,size,false,false);
 			image_floor = new Image(getClass().getResourceAsStream("Image/floor1.png"),size,size,false,false);
-
+			treasure_img = new Image(getClass().getResourceAsStream("Image/treasure.png"), size, size, false, false);
 
 			hero_right  = new Image(getClass().getResourceAsStream("Image/heroRight.png"),size,size,false,false);
 			hero_left   = new Image(getClass().getResourceAsStream("Image/heroLeft.png"),size,size,false,false);
@@ -207,6 +208,10 @@ public class Gui extends Application {
 			b.append(p+"\r\n");
 		}
 		return b.toString();
+	}
+
+	public static void placeTreasure(pair pos) {
+		fields[pos.getX()][pos.getY()].setGraphic(new ImageView(treasure_img));
 	}
 }
 

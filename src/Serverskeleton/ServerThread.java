@@ -2,6 +2,7 @@ package Serverskeleton;
 
 import Game.GameLogic;
 import Game.Player;
+import Game.Treasure;
 
 import java.net.*;
 import java.io.*;
@@ -58,6 +59,13 @@ public class ServerThread extends Thread {
                     synchronized (outToClient) {
                         outToClient.writeBytes(oldPlayerMsg);
                     }
+                }
+            }
+
+            for (Treasure t : GameLogic.treasures) {
+                String msg = "TREASURE " + t.getPosition().getX() + " " + t.getPosition().getY() + "\n";
+                synchronized(outToClient) {
+                    outToClient.writeBytes(msg);
                 }
             }
 
