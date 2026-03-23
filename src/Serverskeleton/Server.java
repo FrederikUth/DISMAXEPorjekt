@@ -27,7 +27,7 @@ public class Server {
 				while (true) {
 					Thread.sleep(2000);
 
-					if (Math.random() < 0.5) {
+					if (Math.random() < 0.75) {
 						// 💰 Treasure
 						Treasure t = GameLogic.spawnTreasure();
 

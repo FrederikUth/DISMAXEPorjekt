@@ -3,6 +3,7 @@ package Serverskeleton;
 import Game.GameLogic;
 import Game.Player;
 import Game.Treasure;
+import Game.pair;
 
 import java.net.*;
 import java.io.*;
@@ -94,6 +95,46 @@ public class ServerThread extends Thread {
                     }
 
                     GameLogic.updatePlayer(me, dx, dy, direction);
+
+                    // 💀 Hvis spilleren døde
+                    if (!me.isAlive()) {
+
+                        // SEND REMOVE til alle
+                        String removeMsg = "REMOVE " + me.getName() + "\n";
+
+                        for (ServerThread thread : Server.threads) {
+                            synchronized(thread.outToClient) {
+                                thread.outToClient.writeBytes(removeMsg);
+                            }
+                        }
+
+                        // ⏱ Respawn efter 5 sek
+                        new Thread(() -> {
+                            try {
+                                Thread.sleep(5000);
+
+                                pair newPos = GameLogic.getRandomFreePosition();
+                                me.setLocation(newPos);
+                                me.setAlive(true);
+
+                                String spawnMsg = "SPAWN " + me.getName() + " " +
+                                        me.getXpos() + " " +
+                                        me.getYpos() + " " +
+                                        me.getDirection() + "\n";
+
+                                for (ServerThread thread : Server.threads) {
+                                    synchronized(thread.outToClient) {
+                                        thread.outToClient.writeBytes(spawnMsg);
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
+
+                        return; // stop resten af update
+                    }
 
                     String updateMessage = "UPDATE " + me.getName() + " " + oldX + " " + oldY + " " +
                             me.getXpos() + " " + me.getYpos() + " " + direction + " " + me.getPoints() + "\n";

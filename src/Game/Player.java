@@ -7,6 +7,7 @@ public class Player {
 	pair location;
 	public int point;
 	String direction;
+	boolean alive = true;
     DataOutputStream outToClient;
 
 
@@ -64,5 +65,12 @@ public class Player {
 		this.point = p;
 	}
 
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
 }
 

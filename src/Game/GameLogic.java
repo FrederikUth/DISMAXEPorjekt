@@ -51,9 +51,11 @@ public class GameLogic {
                 if (b.getPosition().getX() == x + delta_x &&
                         b.getPosition().getY() == y + delta_y) {
 
-                    me.addPoints(-b.getDamage());
                     bombs.remove(b);
-                    break;
+
+                    me.setAlive(false);
+
+                    return; // stop movement
                 }
             }
             for (Treasure t : treasures) {
