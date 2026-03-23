@@ -26,16 +26,19 @@ public class Player {
 	}
 
 	public int getXpos() {
-		return location.x;
+		return location.getX();
 	}
+
 	public void setXpos(int xpos) {
-		this.location.x = xpos;
+		this.location.setX(xpos);
 	}
+
 	public int getYpos() {
-		return location.y;
+		return location.getY();
 	}
+
 	public void setYpos(int ypos) {
-		this.location.y = ypos;
+		this.location.setY(ypos);
 	}
 	public String getDirection() {
 		return direction;

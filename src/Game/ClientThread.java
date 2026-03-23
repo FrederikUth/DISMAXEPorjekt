@@ -82,6 +82,31 @@ public class ClientThread extends Thread {
                         });
                     }
                 }
+                else if (command.equals("REMOVE")) {
+                    String name = tokens[1];
+
+                    Player toRemove = null;
+
+                    // 🔍 Find spilleren
+                    for (Player p : GameLogic.players) {
+                        if (p.getName().equals(name)) {
+                            toRemove = p;
+                            break;
+                        }
+                    }
+
+                    // ❌ Fjern spilleren
+                    if (toRemove != null) {
+                        GameLogic.players.remove(toRemove);
+
+                        Player finalPlayer = toRemove;
+
+                        // 🎮 Fjern fra GUI
+                        Platform.runLater(() -> {
+                            Gui.removePlayerOnScreen(finalPlayer.getLocation());
+                        });
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
