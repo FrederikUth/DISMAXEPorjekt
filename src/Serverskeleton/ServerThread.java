@@ -96,25 +96,10 @@ public class ServerThread extends Thread {
                         }
                     }
                 }
-
-                // =========================
-                // CHAT (BONUS)
-                // =========================
-                else if (msg.startsWith("CHAT")) {
-                    String chatMsg = msg.substring(5);
-
-                    for (ServerThread thread : Server.threads) {
-                        synchronized (thread.outToClient) {
-                            thread.outToClient.writeBytes("CHAT " + me.getName() + ": " + chatMsg + "\n");
-                        }
-                    }
-                }
             }
-
         } catch (Exception e) {
             System.out.println("En spiller mistede forbindelsen.");
         } finally {
-
             // ==========================================
             // REMOVE PLAYER (DISCONNECT FIX)
             // ==========================================
