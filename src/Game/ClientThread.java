@@ -15,10 +15,9 @@ public class ClientThread extends Thread {
     public void run() {
         try {
             while (true) {
-                // Tråden venter her, indtil serveren sender en besked
                 String message = inFromServer.readLine();
-                System.out.println(message);
 
+                // ✅ Null check BEFORE using the message
                 if (message == null) {
                     System.out.println("Forbindelsen til serveren blev afbrudt.");
                     break;
@@ -26,12 +25,11 @@ public class ClientThread extends Thread {
 
                 System.out.println("Modtog fra server: " + message);
 
-                // Vi deler beskeden op i bidder (adskilt af mellemrum)
                 String[] tokens = message.split(" ");
                 String command = tokens[0];
 
                 // ==========================================
-                // HÅNDTER SPAWN (Nye spillere)
+                // SPAWN
                 // ==========================================
                 if (command.equals("SPAWN")) {
                     String name = tokens[1];
@@ -49,7 +47,7 @@ public class ClientThread extends Thread {
                 }
 
                 // ==========================================
-                // HÅNDTER UPDATE (Bevægelse)
+                // UPDATE (movement)
                 // ==========================================
                 else if (command.equals("UPDATE")) {
                     String name = tokens[1];
@@ -60,51 +58,124 @@ public class ClientThread extends Thread {
                     String direction = tokens[6];
                     int points = Integer.parseInt(tokens[7]);
 
-                    // Find spilleren via NAVN i vores lokale liste
                     Player playerToMove = null;
                     for (Player p : GameLogic.players) {
                         if (p.getName().equals(name)) {
                             playerToMove = p;
-                            break; // Stop med at lede, når vi har fundet ham
+                            break;
                         }
                     }
 
-                    // Hvis vi fandt spilleren, opdaterer vi hans position og tegner ham
                     if (playerToMove != null) {
                         playerToMove.setXpos(newX);
                         playerToMove.setYpos(newY);
                         playerToMove.setDirection(direction);
                         playerToMove.setPoints(points);
 
-
-                        // Bed GUI'en om at rykke billedet på skærmen (skal gøres på JavaFX tråden)
+                        final Player finalPlayer = playerToMove;
                         Platform.runLater(() -> {
                             pair oldPos = new pair(oldX, oldY);
                             pair newPos = new pair(newX, newY);
                             Gui.movePlayerOnScreen(oldPos, newPos, direction);
-
                             Gui.refreshScore();
                         });
                     }
                 }
 
+                // ==========================================
+                // TREASURE
+                // ==========================================
                 else if (command.equals("TREASURE")) {
                     int x = Integer.parseInt(tokens[1]);
                     int y = Integer.parseInt(tokens[2]);
-
                     pair pos = new pair(x, y);
-
-                    Platform.runLater(() -> {
-                        Gui.placeTreasure(pos);
-                    });
+                    Platform.runLater(() -> Gui.placeTreasure(pos));
                 }
 
+                // ==========================================
+                // BOMB
+                // ==========================================
+                else if (command.equals("BOMB")) {
+                    int x = Integer.parseInt(tokens[1]);
+                    int y = Integer.parseInt(tokens[2]);
+                    pair pos = new pair(x, y);
+                    Platform.runLater(() -> Gui.placeBomb(pos));
+                }
+
+                // ==========================================
+                // REMOVEBOMB — clear the bomb tile
+                // ==========================================
+                else if (command.equals("REMOVEBOMB")) {
+                    int x = Integer.parseInt(tokens[1]);
+                    int y = Integer.parseInt(tokens[2]);
+                    pair pos = new pair(x, y);
+                    Platform.runLater(() -> Gui.removeBomb(pos));
+                }
+
+                // ==========================================
+                // STUNNED — remove player from screen for 5s
+                // ==========================================
+                else if (command.equals("STUNNED")) {
+                    String name = tokens[1];
+
+                    Player stunned = null;
+                    for (Player p : GameLogic.players) {
+                        if (p.getName().equals(name)) {
+                            stunned = p;
+                            break;
+                        }
+                    }
+
+                    if (stunned != null) {
+                        final Player stunnedPlayer = stunned;
+                        stunnedPlayer.setStunned(true);
+
+                        // Remove player visually (they're "down")
+                        Platform.runLater(() -> {
+                            Gui.removePlayerOnScreen(stunnedPlayer.getLocation());
+                        });
+                    }
+                }
+
+                // ==========================================
+                // RESPAWN — put player back on screen
+                // ==========================================
+                else if (command.equals("RESPAWN")) {
+                    String name = tokens[1];
+                    int x = Integer.parseInt(tokens[2]);
+                    int y = Integer.parseInt(tokens[3]);
+                    String direction = tokens[4];
+
+                    Player respawned = null;
+                    for (Player p : GameLogic.players) {
+                        if (p.getName().equals(name)) {
+                            respawned = p;
+                            break;
+                        }
+                    }
+
+                    if (respawned != null) {
+                        final Player rp = respawned;
+                        rp.setXpos(x);
+                        rp.setYpos(y);
+                        rp.setDirection(direction);
+                        rp.setStunned(false);
+
+                        pair newPos = new pair(x, y);
+                        Platform.runLater(() -> {
+                            Gui.placePlayerOnScreen(newPos, direction);
+                            Gui.refreshScore();
+                        });
+                    }
+                }
+
+                // ==========================================
+                // REMOVE (disconnect)
+                // ==========================================
                 else if (command.equals("REMOVE")) {
                     String name = tokens[1];
 
                     Player toRemove = null;
-
-                    // 🔍 Find spilleren
                     for (Player p : GameLogic.players) {
                         if (p.getName().equals(name)) {
                             toRemove = p;
@@ -112,27 +183,13 @@ public class ClientThread extends Thread {
                         }
                     }
 
-                    // ❌ Fjern spilleren
                     if (toRemove != null) {
                         GameLogic.players.remove(toRemove);
-
-                        Player finalPlayer = toRemove;
-
-                        // 🎮 Fjern fra GUI
+                        final Player finalPlayer = toRemove;
                         Platform.runLater(() -> {
                             Gui.removePlayerOnScreen(finalPlayer.getLocation());
                         });
                     }
-                }
-                else if (command.equals("BOMB")) {
-                    int x = Integer.parseInt(tokens[1]);
-                    int y = Integer.parseInt(tokens[2]);
-
-                    pair pos = new pair(x, y);
-
-                    Platform.runLater(() -> {
-                        Gui.placeBomb(pos);
-                    });
                 }
             }
         } catch (IOException e) {
