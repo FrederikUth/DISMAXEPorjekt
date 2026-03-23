@@ -28,6 +28,7 @@ public class Gui extends Application {
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
 	public static Image treasure_img;
+	public static Image bomb_img;
     //private MediaPlayer mediaPlayer;
 
 	
@@ -65,6 +66,7 @@ public class Gui extends Application {
 			
 			GridPane boardGrid = new GridPane();
 
+			bomb_img = new Image(getClass().getResourceAsStream("Image/bomb.png"), size, size, false, false);
 			image_wall  = new Image(getClass().getResourceAsStream("Image/wall4.png"),size,size,false,false);
 			image_floor = new Image(getClass().getResourceAsStream("Image/floor1.png"),size,size,false,false);
 			treasure_img = new Image(getClass().getResourceAsStream("Image/treasure.png"), size, size, false, false);

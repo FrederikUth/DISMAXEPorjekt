@@ -20,21 +20,39 @@ public class Server {
 	public static void main(String[] args)throws Exception {
 		common c = new common("eksempel");
 		ServerSocket welcomeSocket = new ServerSocket(6767);
-		// 🔥 TREASURE SPAWN THREAD
+		// TREASURE SPAWN THREAD
 		new Thread(() -> {
 			try {
 				while (true) {
-					Thread.sleep(5000);
+					Thread.sleep(2000);
 
-					Treasure t = GameLogic.spawnTreasure();
+					if (Math.random() < 0.5) {
+						// 💰 Treasure
+						Treasure t = GameLogic.spawnTreasure();
 
-					String msg = "TREASURE " + t.getPosition().getX() + " " + t.getPosition().getY() + "\n";
+						String msg = "TREASURE " + t.getPosition().getX() + " " +
+								t.getPosition().getY() + "\n";
 
-					for (ServerThread thread : Server.threads) {
-						synchronized(thread.outToClient) {
-							thread.outToClient.writeBytes(msg);
+						for (ServerThread thread : Server.threads) {
+							synchronized(thread.outToClient) {
+								thread.outToClient.writeBytes(msg);
+							}
+						}
+
+					} else {
+						// 💣 Bomb
+						Bomb b = GameLogic.spawnBomb();
+
+						String msg = "BOMB " + b.getPosition().getX() + " " +
+								b.getPosition().getY() + "\n";
+
+						for (ServerThread thread : Server.threads) {
+							synchronized(thread.outToClient) {
+								thread.outToClient.writeBytes(msg);
+							}
 						}
 					}
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 public class GameLogic {
-    public static List<Player> players = new CopyOnWriteArrayList<Player>();
-    public static List<Treasure> treasures = new CopyOnWriteArrayList<Treasure>();
+    public static List<Player> players = new CopyOnWriteArrayList<>();
+    public static List<Treasure> treasures = new CopyOnWriteArrayList<>();
+    public static List<Bomb> bombs = new CopyOnWriteArrayList<>();
 
     public static Player makePlayers(String name) {
         pair p = getRandomFreePosition();
@@ -46,7 +47,15 @@ public class GameLogic {
             me.addPoints(0);
         }
         else {
-            // 🔥 TJEK TREASURE
+            for (Bomb b : bombs) {
+                if (b.getPosition().getX() == x + delta_x &&
+                        b.getPosition().getY() == y + delta_y) {
+
+                    me.addPoints(-b.getDamage());
+                    bombs.remove(b);
+                    break;
+                }
+            }
             for (Treasure t : treasures) {
                 if (t.getPosition().getX() == x + delta_x &&
                         t.getPosition().getY() == y + delta_y) {
@@ -81,5 +90,12 @@ public class GameLogic {
         Treasure t = new Treasure(pos, 10);
         treasures.add(t);
         return t;
+    }
+
+    public static Bomb spawnBomb() {
+        pair pos = getRandomFreePosition();
+        Bomb b = new Bomb(pos, 10); // 10 damage
+        bombs.add(b);
+        return b;
     }
 }

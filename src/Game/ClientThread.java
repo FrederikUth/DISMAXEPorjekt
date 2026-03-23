@@ -124,6 +124,16 @@ public class ClientThread extends Thread {
                         });
                     }
                 }
+                else if (command.equals("BOMB")) {
+                    int x = Integer.parseInt(tokens[1]);
+                    int y = Integer.parseInt(tokens[2]);
+
+                    pair pos = new pair(x, y);
+
+                    Platform.runLater(() -> {
+                        Gui.placeBomb(pos);
+                    });
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
