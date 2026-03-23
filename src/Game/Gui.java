@@ -213,5 +213,17 @@ public class Gui extends Application {
 	public static void placeTreasure(pair pos) {
 		fields[pos.getX()][pos.getY()].setGraphic(new ImageView(treasure_img));
 	}
+
+	public static void updateScore() {
+		StringBuffer b = new StringBuffer();
+
+		for (Player p : GameLogic.players) {
+			b.append(p.toString() + "\n");
+		}
+
+		// scoreList er ikke static → fix:
+		// (vi laver en hurtig workaround)
+		System.out.println(b.toString());
+	}
 }
 

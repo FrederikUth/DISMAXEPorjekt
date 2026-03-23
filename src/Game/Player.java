@@ -5,7 +5,7 @@ import java.io.DataOutputStream;
 public class Player {
 	String name;
 	pair location;
-	int point;
+	public int point;
 	String direction;
     DataOutputStream outToClient;
 

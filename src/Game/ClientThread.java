@@ -58,6 +58,7 @@ public class ClientThread extends Thread {
                     int newX = Integer.parseInt(tokens[4]);
                     int newY = Integer.parseInt(tokens[5]);
                     String direction = tokens[6];
+                    String scoreText = tokens[7];
 
                     // Find spilleren via NAVN i vores lokale liste
                     Player playerToMove = null;
@@ -73,12 +74,23 @@ public class ClientThread extends Thread {
                         playerToMove.setXpos(newX);
                         playerToMove.setYpos(newY);
                         playerToMove.setDirection(direction);
+                        // OPDATER POINT (hack via parsing)
+                        try {
+                            String[] parts = scoreText.split(":");
+                            int points = Integer.parseInt(parts[1].trim());
+                            playerToMove.point = points;
+                        } catch (Exception e) {
+                            System.out.println("Kunne ikke parse score");
+                        }
 
                         // Bed GUI'en om at rykke billedet på skærmen (skal gøres på JavaFX tråden)
                         Platform.runLater(() -> {
                             pair oldPos = new pair(oldX, oldY);
                             pair newPos = new pair(newX, newY);
                             Gui.movePlayerOnScreen(oldPos, newPos, direction);
+
+                            // OPDATER SCORE
+                            Gui.updateScore();
                         });
                     }
                 }
@@ -118,17 +130,6 @@ public class ClientThread extends Thread {
                             Gui.removePlayerOnScreen(finalPlayer.getLocation());
                         });
                     }
-                }
-
-                else if (command.equals("TREASURE")) {
-                    int x = Integer.parseInt(tokens[1]);
-                    int y = Integer.parseInt(tokens[2]);
-
-                    pair pos = new pair(x, y);
-
-                    Platform.runLater(() -> {
-                        Gui.placeTreasure(pos);
-                    });
                 }
             }
         } catch (IOException e) {
