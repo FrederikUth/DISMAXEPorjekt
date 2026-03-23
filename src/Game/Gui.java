@@ -237,7 +237,9 @@ public class Gui extends Application {
     public static void placeTreasure(pair pos) {
         fields[pos.getX()][pos.getY()].setGraphic(new ImageView(treasure_img));
     }
-
+    public static void removeBomb(pair pos) {
+        fields[pos.getX()][pos.getY()].setGraphic(new ImageView(image_floor));
+    }
     public static void updateScore() {
         StringBuffer b = new StringBuffer();
 
