@@ -33,7 +33,7 @@ public class Gui extends Application {
 	
 
 	private static Label[][] fields;
-	private TextArea scoreList;
+	private static TextArea scoreList;
 	
 
 
@@ -224,6 +224,17 @@ public class Gui extends Application {
 		// scoreList er ikke static → fix:
 		// (vi laver en hurtig workaround)
 		System.out.println(b.toString());
+	}
+	public static void refreshScore() {
+		if (scoreList == null) return;
+
+		StringBuilder b = new StringBuilder();
+
+		for (Player p : GameLogic.players) {
+			b.append(p.toString()).append("\n");
+		}
+
+		scoreList.setText(b.toString());
 	}
 }
 

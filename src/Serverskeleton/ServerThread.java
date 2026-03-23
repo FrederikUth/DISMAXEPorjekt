@@ -96,7 +96,7 @@ public class ServerThread extends Thread {
                     GameLogic.updatePlayer(me, dx, dy, direction);
 
                     String updateMessage = "UPDATE " + me.getName() + " " + oldX + " " + oldY + " " +
-                            me.getXpos() + " " + me.getYpos() + " " + direction + " " + me.toString() + "\n";
+                            me.getXpos() + " " + me.getYpos() + " " + direction + " " + me.getPoints() + "\n";
 
                     for (ServerThread thread : Server.threads) {
                         synchronized (thread.outToClient) {

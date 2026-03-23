@@ -56,5 +56,13 @@ public class Player {
         return this.name;
     }
 
+	public int getPoints() {
+		return point;
+	}
+
+	public void setPoints(int p) {
+		this.point = p;
+	}
+
 }
 
