@@ -10,9 +10,11 @@ import javafx.scene.image.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 import java.net.URL;
+
+
 
 public class Gui extends Application {
 
@@ -25,7 +27,7 @@ public class Gui extends Application {
 	public static Image image_floor;
 	public static Image image_wall;
 	public static Image hero_right,hero_left,hero_up,hero_down;
-    private MediaPlayer mediaPlayer;
+    //private MediaPlayer mediaPlayer;
 
 	
 
@@ -120,27 +122,27 @@ public class Gui extends Application {
         // ==========================================
         // BAGGGRUNDSMUSIK
         // ==========================================
-        try {
-            // Find filen i din Audio-mappe
-            URL resource = getClass().getResource("Audio/HAPPYWHISTLE.mp3");
-            if (resource != null) {
-                Media sound = new Media(resource.toExternalForm());
-                mediaPlayer = new MediaPlayer(sound);
-
-                // Få musikken til at køre i ring (loop)
-                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-                // Skru lidt ned, så det er baggrundsmusik (0.0 til 1.0)
-                mediaPlayer.setVolume(0.2);
-
-                // Start musikken!
-                mediaPlayer.play();
-            } else {
-                System.out.println("Kunne ikke finde musikfilen.");
-            }
-        } catch (Exception e) {
-            System.out.println("Fejl ved indlæsning af musik: " + e.getMessage());
-        }
+//        try {
+//            // Find filen i din Audio-mappe
+//            URL resource = getClass().getResource("Audio/HAPPYWHISTLE.mp3");
+//            if (resource != null) {
+//                Media sound = new Media(resource.toExternalForm());
+//                mediaPlayer = new MediaPlayer(sound);
+//
+//                // Få musikken til at køre i ring (loop)
+//                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//
+//                // Skru lidt ned, så det er baggrundsmusik (0.0 til 1.0)
+//                mediaPlayer.setVolume(0.2);
+//
+//                // Start musikken!
+//                mediaPlayer.play();
+//            } else {
+//                System.out.println("Kunne ikke finde musikfilen.");
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Fejl ved indlæsning af musik: " + e.getMessage());
+//        }
 	}
 	
 	public static void removePlayerOnScreen(pair oldpos) {
