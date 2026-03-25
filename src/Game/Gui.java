@@ -28,19 +28,14 @@ public class Gui extends Application {
     public static Image hero_right, hero_left, hero_up, hero_down;
     public static Image treasure_img;
     public static Image bomb_img;
-    //private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
 
 
     private static Label[][] fields;
     private static TextArea scoreList;
 
 
-    // -------------------------------------------
-    // | Maze: (0,0)              | Score: (1,0) |
-    // |-----------------------------------------|
-    // | boardGrid (0,1)          | scorelist    |
-    // |                          | (1,1)        |
-    // -------------------------------------------
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -134,8 +129,6 @@ public class Gui extends Application {
                         break;
                 }
             });
-
-            // Putting default players on screen
             for (int i = 0; i < GameLogic.players.size(); i++) {
                 fields[GameLogic.players.get(i).getXpos()][GameLogic.players.get(i).getYpos()].setGraphic(new ImageView(hero_up));
             }
@@ -143,23 +136,14 @@ public class Gui extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // ==========================================
         // BAGGGRUNDSMUSIK
-      // ==========================================
         try {
-            // Find filen i din Audio-mappe
             URL resource = getClass().getResource("Audio/HAPPYWHISTLE.mp3");
             if (resource != null) {
                 Media sound = new Media(resource.toExternalForm());
                 MediaPlayer mediaPlayer = new MediaPlayer(sound);
-
-                // Få musikken til at køre i ring (loop)
                 mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-                // Skru lidt ned, så det er baggrundsmusik (0.0 til 1.0)
                 mediaPlayer.setVolume(0.2);
-
-                // Start musikken!
                 mediaPlayer.play();
             } else {
                 System.out.println("Kunne ikke finde musikfilen.");
@@ -247,8 +231,6 @@ public class Gui extends Application {
             b.append(p.toString() + "\n");
         }
 
-        // scoreList er ikke static → fix:
-        // (vi laver en hurtig workaround)
         System.out.println(b.toString());
     }
 

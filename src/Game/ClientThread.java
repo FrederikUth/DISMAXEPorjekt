@@ -17,7 +17,6 @@ public class ClientThread extends Thread {
             while (true) {
                 String message = inFromServer.readLine();
 
-                // ✅ Null check BEFORE using the message
                 if (message == null) {
                     System.out.println("Forbindelsen til serveren blev afbrudt.");
                     break;
@@ -28,9 +27,7 @@ public class ClientThread extends Thread {
                 String[] tokens = message.split(" ");
                 String command = tokens[0];
 
-                // ==========================================
                 // SPAWN
-                // ==========================================
                 if (command.equals("SPAWN")) {
                     String name = tokens[1];
                     int x = Integer.parseInt(tokens[2]);
@@ -46,9 +43,7 @@ public class ClientThread extends Thread {
                     });
                 }
 
-                // ==========================================
                 // UPDATE (movement)
-                // ==========================================
                 else if (command.equals("UPDATE")) {
                     String name = tokens[1];
                     int oldX = Integer.parseInt(tokens[2]);
@@ -82,9 +77,7 @@ public class ClientThread extends Thread {
                     }
                 }
 
-                // ==========================================
                 // TREASURE
-                // ==========================================
                 else if (command.equals("TREASURE")) {
                     int x = Integer.parseInt(tokens[1]);
                     int y = Integer.parseInt(tokens[2]);
@@ -92,9 +85,7 @@ public class ClientThread extends Thread {
                     Platform.runLater(() -> Gui.placeTreasure(pos));
                 }
 
-                // ==========================================
                 // BOMB
-                // ==========================================
                 else if (command.equals("BOMB")) {
                     int x = Integer.parseInt(tokens[1]);
                     int y = Integer.parseInt(tokens[2]);
@@ -102,9 +93,7 @@ public class ClientThread extends Thread {
                     Platform.runLater(() -> Gui.placeBomb(pos));
                 }
 
-                // ==========================================
-                // REMOVEBOMB — clear the bomb tile
-                // ==========================================
+
                 else if (command.equals("REMOVEBOMB")) {
                     int x = Integer.parseInt(tokens[1]);
                     int y = Integer.parseInt(tokens[2]);
@@ -112,9 +101,7 @@ public class ClientThread extends Thread {
                     Platform.runLater(() -> Gui.removeBomb(pos));
                 }
 
-                // ==========================================
-                // STUNNED — remove player from screen for 5s
-                // ==========================================
+
                 else if (command.equals("STUNNED")) {
                     String name = tokens[1];
 
@@ -169,9 +156,7 @@ public class ClientThread extends Thread {
                     }
                 }
 
-                // ==========================================
                 // REMOVE (disconnect)
-                // ==========================================
                 else if (command.equals("REMOVE")) {
                     String name = tokens[1];
 

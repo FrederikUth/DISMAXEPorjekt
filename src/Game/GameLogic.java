@@ -13,7 +13,6 @@ public class GameLogic {
         OK, WALL, BLOCKED_BY_PLAYER, HIT_BOMB, STUNNED
     }
 
-    // Stores the position of the last bomb that was hit, so the server can broadcast REMOVEBOMB
     public static pair lastBombHitPos = null;
 
     public static Player makePlayers(String name) {
@@ -42,7 +41,6 @@ public class GameLogic {
     }
 
     public static synchronized MoveResult updatePlayer(Player me, int delta_x, int delta_y, String direction) {
-        // If the player is stunned, they cannot move
         if (me.isStunned()) {
             return MoveResult.STUNNED;
         }

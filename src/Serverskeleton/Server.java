@@ -28,7 +28,6 @@ public class Server {
 					Thread.sleep(2000);
 
 					if (Math.random() < 0.75) {
-						// 💰 Treasure
 						Treasure t = GameLogic.spawnTreasure();
 
 						String msg = "TREASURE " + t.getPosition().getX() + " " +
@@ -41,7 +40,6 @@ public class Server {
 						}
 
 					} else {
-						// 💣 Bomb
 						Bomb b = GameLogic.spawnBomb();
 
 						String msg = "BOMB " + b.getPosition().getX() + " " +

@@ -28,7 +28,6 @@ public class ServerThread extends Thread {
                     new InputStreamReader(connSocket.getInputStream()));
             outToClient = new DataOutputStream(connSocket.getOutputStream());
 
-            // 1. Read name
             String clientSentence = inFromClient.readLine();
             System.out.println(clientSentence + " er ved at forbinde...");
 
@@ -38,12 +37,10 @@ public class ServerThread extends Thread {
 
             Thread.sleep(500);
 
-            // 2. Create player
             Server.threads.add(this);
             me = GameLogic.makePlayers(clientSentence);
             Server.players.add(me);
 
-            // 3. Send SPAWN to all
             String spawnMessage = "SPAWN " + me.getName() + " " + me.getXpos() + " " + me.getYpos() + " " + me.getDirection() + "\n";
             for (ServerThread thread : Server.threads) {
                 synchronized (thread.outToClient) {
@@ -51,7 +48,6 @@ public class ServerThread extends Thread {
                 }
             }
 
-            // 4. Send existing players to new client
             for (Player p : Server.players) {
                 if (p != me) {
                     String oldPlayerMsg = "SPAWN " + p.getName() + " " + p.getXpos() + " " + p.getYpos() + " " + p.getDirection() + "\n";
@@ -68,9 +64,7 @@ public class ServerThread extends Thread {
                 }
             }
 
-            // ==========================================
             // GAME LOOP
-            // ==========================================
             while (true) {
                 String msg = inFromClient.readLine();
                 if (msg == null) break;
@@ -92,7 +86,6 @@ public class ServerThread extends Thread {
                     MoveResult result = GameLogic.updatePlayer(me, dx, dy, direction);
 
                     if (result == MoveResult.HIT_BOMB) {
-                        // Remove the bomb tile from all clients
                         if (GameLogic.lastBombHitPos != null) {
                             String removeBombMsg = "REMOVEBOMB " + GameLogic.lastBombHitPos.getX() + " " + GameLogic.lastBombHitPos.getY() + "\n";
                             for (ServerThread thread : Server.threads) {
@@ -103,7 +96,6 @@ public class ServerThread extends Thread {
                             GameLogic.lastBombHitPos = null;
                         }
 
-                        // Tell everyone this player is stunned (removes them visually)
                         String stunnedMsg = "STUNNED " + me.getName() + "\n";
                         for (ServerThread thread : Server.threads) {
                             synchronized (thread.outToClient) {
@@ -111,20 +103,17 @@ public class ServerThread extends Thread {
                             }
                         }
 
-                        // Respawn after 5 seconds in a background thread
                         final Player stunnedPlayer = me;
                         new Thread(() -> {
                             try {
                                 Thread.sleep(5000);
 
-                                // Find a new free position and move the player there
                                 pair newPos = GameLogic.getRandomFreePosition();
                                 stunnedPlayer.setXpos(newPos.getX());
                                 stunnedPlayer.setYpos(newPos.getY());
                                 stunnedPlayer.setDirection("up");
                                 stunnedPlayer.setStunned(false);
 
-                                // Tell all clients to respawn this player
                                 String respawnMsg = "RESPAWN " + stunnedPlayer.getName() + " " +
                                         newPos.getX() + " " + newPos.getY() + " up\n";
 
@@ -150,16 +139,13 @@ public class ServerThread extends Thread {
                             }
                         }
                     }
-                    // STUNNED / WALL / BLOCKED: do nothing, ignore the move
                 }
             }
 
         } catch (Exception e) {
             System.out.println("En spiller mistede forbindelsen.");
         } finally {
-            // ==========================================
-            // REMOVE PLAYER ON DISCONNECT
-            // ==========================================
+
             if (me != null) {
                 Server.threads.remove(this);
                 Server.players.remove(me);
